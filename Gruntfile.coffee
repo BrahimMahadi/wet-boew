@@ -572,7 +572,22 @@ module.exports = (grunt) ->
 					"node_modules"
 				],
 				indentType: "tab",
-				indentWidth: 1
+				indentWidth: 1,
+				# Recommended fatal to warn Dart Sass 2 https://sass-lang.com/blog/the-road-to-dart-sass-2/
+				fatalDeprecations: [
+					'adjacent-compounds'
+					'compile-string-relative-url'
+					'function-name'
+					'misplaced-rest'
+					'with-private'
+				]
+				# if-function, color-functions, and slash-div need to be
+				# addressed in Magnific + Bootstrap, but are fine here
+				quietDeps: true
+				silenceDeprecations: [
+					"global-builtin"
+					"import"
+				]
 			all:
 				files: [
 					expand: true
@@ -884,15 +899,14 @@ module.exports = (grunt) ->
 			all:
 				options:
 					ignore: [
+						/^This document appears to be written in/
 						# TODO: Should be removed and fixed now that HTML5 specs updated
 						"The “main” role is unnecessary for element “main”."
 						"The “contentinfo” role is unnecessary for element “footer”."
 						"The “navigation” role is unnecessary for element “nav”."
 						"The “banner” role is unnecessary for element “header”."
 						"Attribute “href” without an explicit value seen. The attribute may be dropped by IE7."
-						"Trailing slash on void elements has no effect and interacts badly with unquoted attribute values.",
-						"This document appears to be written in English but the “html” start tag has “lang=\"fr\"”. Consider using “lang=\"en\"” (or variant) instead.",
-						"This document appears to be written in Lorem ipsum text but the “html” start tag has “lang=\"en\"”. Consider using “lang=\"zxx\"” (or variant) instead."
+						"Trailing slash on void elements has no effect and interacts badly with unquoted attribute values."
 					]
 				src: [
 					"dist/unmin/**/*.html"
@@ -1253,5 +1267,4 @@ module.exports = (grunt) ->
 
 	require( "load-grunt-tasks" )( grunt, requireResolution: true )
 
-	require( "time-grunt" )( grunt )
 	@
